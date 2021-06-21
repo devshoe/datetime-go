@@ -199,12 +199,12 @@ func NowWithCustomTime(h, m, s int, nsec ...int) time.Time {
 
 //TimeIsInRange reports if t is between t1 and t2
 //t1 is included and t2 is excluded
-func TimeIsInRange(t, t1, t2 time.Time) bool {
+func DatetimeIsInRange(t, t1, t2 time.Time) bool {
 	return !t.Before(t1) && t.Before(t2)
 }
 
 //TimeIsInArray checks if this exact time is in array
-func TimeIsInArray(t time.Time, ta []time.Time) bool {
+func DatetimeIsInArray(t time.Time, ta []time.Time) bool {
 	for i := range ta {
 		if t.Equal(ta[i]) {
 			return true
@@ -221,4 +221,24 @@ func DurationDay() time.Duration {
 //DurationWeek returns time.Hour*24*7
 func DurationWeek() time.Duration {
 	return time.Hour * 24 * 7
+}
+//MaxTime returns the maximum time in all supplied
+func MaxTime(t ...time.Time) time.Time {
+	max := time.Time{}
+	for i := range t {
+		if t[i].After(max) {
+			max = t[i]
+		}
+	}
+	return max
+}
+//MinTime returns the lowest time in all supplied
+func MinTime(t ...time.Time) time.Time {
+	min := time.Date(2099, time.January, 1, 1, 1, 1, 0, time.UTC)
+	for i := range t {
+		if t[i].Before(min) {
+			min = t[i]
+		}
+	}
+	return min
 }
